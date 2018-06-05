@@ -11,17 +11,24 @@ export default class App extends Component {
       isLoading: true,
       text: 'Loading Employees...'
     };
+    this.offices;
   }
 
   componentDidMount(){
     const data = fetch('https://cngodles.github.io/people.json?yes=1')
                   .then((response) => response.json())
                   .then((responseJson) => {
+
+                    this.offices = responseJson.employees.map((val, index, array) => {
+                      return val.office.toUpperCase();
+                    });
+
                     this.setState({
                       isLoading: false,
                       data: responseJson.employees,
                       employeeList: responseJson.employees
                     });
+                    
                   });
   }
 
@@ -59,10 +66,6 @@ export default class App extends Component {
         }
       });
 
-      offices = this.state.data.map((val, index, array) => {
-        return val.office.toUpperCase();
-      });
-
       output = <FlatList 
         data = {listData}
         renderItem = {({item}) => <Employee data={item.data} index={item.index} key={item.key}/>} />
@@ -71,7 +74,7 @@ export default class App extends Component {
     return (
       <View style={styles.body}>
         <TopBar />
-        <ControlBar options={offices} onOfficeChange={this.handleOfficePicker}/>
+        <ControlBar options={this.offices} onOfficeChange={this.handleOfficePicker}/>
         {output}
       </View>
     );
