@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, FlatList } from 'react-native';
 import TopBar from './components/TopBar';
 import ControlBar from './components/ControlBar.js';
 import Employee from './components/Employee';
+import BottomNav from './components/BottomNav';
 
 export default class App extends Component {
   constructor(props){
@@ -27,9 +28,8 @@ export default class App extends Component {
                       isLoading: false,
                       data: responseJson.employees,
                       employeeList: responseJson.employees
-                    });
-                    
-                  });
+                    });                
+    });
   }
 
   handleOfficePicker = (office) => {
@@ -76,6 +76,7 @@ export default class App extends Component {
         <TopBar />
         <ControlBar options={this.offices} onOfficeChange={this.handleOfficePicker}/>
         {output}
+        <BottomNav />
       </View>
     );
   }
